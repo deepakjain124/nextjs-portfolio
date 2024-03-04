@@ -21,7 +21,7 @@ export default function Home() {
       </Head>
       <div className="mt-[15px] mx-[10px] md:mx-[80px] lg:mx-[120px] xl:mx-[350px] text-white">
         <div className="backgroinImage w-full h-48 md:h-72 bg-primary relative">
-          <div className="aspect-square">
+          <div className="">
             <Image
               alt="profile"
               className="absolute aspect-square border-4 border-white rounded-full w-32 md:w-44 md:h-44 h-32 object-contain -bottom-20 left-4 md:left-10  "
