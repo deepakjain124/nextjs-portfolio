@@ -1,7 +1,7 @@
 const About = () => {
   return (
     <div className="w-[95%] text-xs md:text-sm md:w-[90%] mt-2">
-      <h1 className="text-3xl">Hello Buddys! 👋</h1>
+      <h1 className="text-3xl">Hello Buddies! 👋</h1>
       <br/>
       <p>
         I am Deepak Jain Some people call me  DJ. I am a web developer that

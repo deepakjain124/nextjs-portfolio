@@ -37,7 +37,7 @@ const Tech = () => {
       image: "/express.png",
     },
     {
-      name: "Mongoodb",
+      name: "Mongodb",
       image: "/mongodb.png",
     },
     {
