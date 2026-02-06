@@ -1,73 +1,122 @@
 "use client";
 import { Button, Form, Input, Modal, message } from "antd";
+import { useState } from "react";
+import emailjs from "@emailjs/browser";
+
+const { TextArea } = Input;
 
 const ContactForm = ({ isOpen, setIsOpen }) => {
-  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; // Regular expression for email format
-  const mobilePattern = /^[6-9]\d{9}$/; // Regular expression for valid mobile number format
+  const [loading, setLoading] = useState(false);
+
+  const emailPattern =
+    /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  const mobilePattern = /^[6-9]\d{9}$/;
+
   const inputClass =
-    "rounded-none text-black bg-gray-200 h-12 focus:bg-gray-200 hover:bg-gray-200 border-none focus:border-none outline-none focus:outline-none";
+    "rounded-lg text-black bg-white/90 h-11 border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/30";
+
+  const onFinish = async (values) => {
+     try {
+      setLoading(true)
+      await emailjs.send(
+        "service_0ep68ge",
+        "template_0l6tzvs",
+        {
+          name: values.name,
+          email: values.email,
+          mobile: values.mobile,
+          description: values.description,
+        },
+        "XkLDKO5TjXJYYEBF9"
+      );
+
+      message.success("Thanks for contacting us! Email sent 📩");
+      setIsOpen(false);
+    } catch (error) {
+      message.error("Failed to send email. Try again.");
+    }finally{
+      setLoading(false)
+    }
+  };
+
   return (
     <Modal
-      closeIcon={<p className="text-white">X</p>}
       open={isOpen}
       onCancel={() => setIsOpen(false)}
       footer={null}
+      centered
+      className="contact-modal"
     >
-      <Form onFinish={()=>{
-        message.success("Thanks For Contacting Us.")
-        setIsOpen(false)
-      }}>
-        <div className="grid grid-cols-1 md:grid-cols-2 mt-4 place-items-center gap-x-4 gap-y-0 md:gap-y-4">
-          <Form.Item className="w-full"
-            name={"name"}
-            rules={[{ required: true, message: "Please enter name" }]}
-            label={<p className="p-0 text-white font-semibold">Name</p>}
-            labelCol={{ span: 24 }}
-          >
-            <Input maxLength={25} className={inputClass} placeholder="Enter Name" />
-          </Form.Item>
-          <Form.Item className="w-full"
-            name={"email"}
-            rules={[
-              { required: true, message: "Please enter email" },
-              { pattern: emailPattern, message: "Enter valid email" },
-            ]}
-            label={<p className="p-0 text-white font-semibold">Email</p>}
-            labelCol={{ span: 24 }}
-          >
-            <Input className={inputClass} placeholder="Enter Name" />
-          </Form.Item>{" "}
-          <Form.Item className="w-full"
-            name={"mobile"}
-            rules={[
-              { required: true, message: "Please enter mobile" },
-              { pattern: mobilePattern, message: "Enter valid mobile" },
-            ]}
-            label={<p className="p-0 text-white font-semibold">Mobile</p>}
-            labelCol={{ span: 24 }}
-          >
-            <Input maxLength={10} className={inputClass} placeholder="Enter Name" />
-          </Form.Item>{" "}
-          <Form.Item className="w-full"
-            name={"description"}
-            rules={[{ required: true, message: "Please enter description" }]}
-            label={<p className="p-0 text-white font-semibold">Description</p>}
-            labelCol={{ span: 24 }}
-          >
-            <Input className={inputClass} placeholder="Enter Name" />
-          </Form.Item>
-        </div>
-        <div className="flex justify-end items-center">
-          <Form.Item>
+      <div className=" rounded-xl">
+        <h2 className="text-white text-2xl font-semibold mb-2">
+          Contact Us
+        </h2>
+        <p className="text-gray-300 text-sm mb-6">
+          Fill the form and we’ll get back to you shortly
+        </p>
+
+        <Form layout="vertical" onFinish={onFinish}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Form.Item
+              name="name"
+              label={<span className="text-white">Name</span>}
+              rules={[{ required: true, message: "Please enter name" }]}
+            >
+              <Input placeholder="John Doe" className={inputClass} />
+            </Form.Item>
+
+            <Form.Item
+              name="email"
+              label={<span className="text-white">Email</span>}
+              rules={[
+                { required: true, message: "Please enter email" },
+                { pattern: emailPattern, message: "Enter valid email" },
+              ]}
+            >
+              <Input placeholder="john@email.com" className={inputClass} />
+            </Form.Item>
+
+            <Form.Item
+              name="mobile"
+              label={<span className="text-white">Mobile</span>}
+              rules={[
+                { required: true, message: "Please enter mobile" },
+                { pattern: mobilePattern, message: "Enter valid mobile" },
+              ]}
+            >
+              <Input
+                maxLength={10}
+                placeholder="9876543210"
+                className={inputClass}
+              />
+            </Form.Item>
+
+           
+          </div>
+           <Form.Item
+              name="description"
+              label={<span className="text-white">Message</span>}
+              rules={[{ required: true, message: "Please enter message" }]}
+            >
+              <TextArea
+                rows={2}
+                placeholder="Tell us about your requirement..."
+                className="rounded-lg"
+              />
+            </Form.Item>
+
+          <div className="flex justify-end mt-4">
             <Button
+            style={{background:"#1d55a9",color:"white"}}
               htmlType="submit"
-              className="bg-primary text-white rounded-none border-none focus:border-none hover:bg-primary h-10 w-24"
+              loading={loading}
+              className="bg-primary text-white px-6 h-11 rounded-lg border-none"
             >
               Submit
             </Button>
-          </Form.Item>
-        </div>
-      </Form>
+          </div>
+        </Form>
+      </div>
     </Modal>
   );
 };

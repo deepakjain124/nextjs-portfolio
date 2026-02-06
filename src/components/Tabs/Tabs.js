@@ -4,6 +4,7 @@ import Tech from "./Tech";
 import Work from "./Work";
 import About from "./About";
 import Education from "./Education";
+import Capabilities from "./Capabilities";
 
 const Tabs = () => {
   const [selected, setSelected] = useState(0);
@@ -25,8 +26,14 @@ const Tabs = () => {
       component:<Work/>
 
     },
-    {
+     {
       id: 4,
+      name: "Capabilities",
+      component:<Capabilities/>
+
+    },
+    {
+      id: 5,
       name: "Education",
       component:<Education/>
 
@@ -34,7 +41,7 @@ const Tabs = () => {
   ];
   return (
     <div>
-      <div className="grid grid-cols-3 md:grid-cols-4 place-items-start place-content-start  gap-4 ">
+      <div className="grid grid-cols-3 md:grid-cols-5 place-items-start place-content-start  gap-4 ">
         {Tabs.map((i, index) => (
           <p key={index} onClick={()=>setSelected(index)}
             className={`${

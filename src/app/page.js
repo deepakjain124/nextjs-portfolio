@@ -60,7 +60,7 @@ export default function Home() {
 
           <p className="mt-2">Brings ideas to life with code! ✨</p>
           <p className="mt-1">
-            Senior React Js Developer @ Ezulix Software Private Limited. Web
+            Senior Associate Consultant @ Infosys Limited. Web
             Portal Specialist
           </p>
         </div>
